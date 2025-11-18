@@ -1,0 +1,32 @@
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+
+# Arquivos grandes
+*.csv
+*.png
+*.jpg
+*.jpeg
+*.pdf
+
+# Pastas de exercícios / cursos
+udemy/
+beecrowd/
+
+# Arquivos da IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs
+*.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db

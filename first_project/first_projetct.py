@@ -1,6 +1,6 @@
 from pathlib import Path
 
-archive = Path('todo_list.txt')#?
+archive = Path('todo_list.txt')
 
 print(archive)
 
@@ -8,8 +8,11 @@ def add_task(task):
 
     with archive.open('a') as open: open.write(task + '\n')
 
-def remove_task():
-    ...
+def remove_task(task):
+
+    lines = archive.read_text().splitlines()
+    filtered = [line for line in lines if line.strip() != task]
+    archive.write_text('\n'.join(filtered))
 
 def replace_in_file(previus, new):
 
@@ -23,3 +26,4 @@ def clear_file():
     archive.write_text('')
 
 read_task()
+remove_task('Clean the Room')

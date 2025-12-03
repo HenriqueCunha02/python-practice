@@ -2,8 +2,6 @@ from pathlib import Path
 
 archive = Path('todo_list.txt')
 
-print(archive)
-
 def add_task(task):
 
     with archive.open('a') as open: open.write(task + '\n')
@@ -25,5 +23,31 @@ def read_task():
 def clear_file():
     archive.write_text('')
 
-read_task()
-remove_task('Clean the Room')
+option = int(input('Select the operation that you want:\n' \
+'1 - Read Tasks\n'
+'2 - Add Task\n'
+'3 - Remove Task\n'
+'4 - Replace some Task\n'
+'5 - Clear All the Tasks\n'))
+
+match option:
+    case 1:
+        read_task()
+    case 2:
+        task_to_add = input('Write the task that you want to add: ')
+        add_task(task_to_add)
+    case 3:
+        print('\nTasks that you have: ')
+        read_task()
+        task_to_remove = input('Write the task that you wants to remove: ')
+        remove_task(task_to_remove)
+    case 4:
+        print('\nTasks that you have: ')
+        read_task()
+        previus = input('Write the task that you want to replace: ')
+        new = input('Write the task that you want to add: ')
+
+        replace_in_file(previus, new)
+
+    case 5:
+        clear_file()

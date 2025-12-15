@@ -87,23 +87,53 @@ task_list = Label(window, text = ('\n' \
 '6 - Quit\n'))
 task_list.grid(column = 1, row = 1)
 
-btn_read = Button(window, text="Read Tasks", command=read_task)
+btn_read = Button(window, text="Read Tasks",
+                  bg='#4287f5',
+                  fg='white',
+                  font=('Arial', 10, 'bold'),
+                  activebackground="#02245c",
+                  activeforeground="white",
+                  command=read_task)
 btn_read.grid(column=1, row=2)
 
-btn_read = Button(window, text="Add Tasks", command=option_add_task)
+btn_read = Button(window, text="Add Task",
+    bg="#4CAF50",
+    fg="white",
+    font=('Arial', 10, 'bold'),
+    activebackground="#004003",
+    activeforeground="white",
+    command=option_add_task)
 btn_read.grid(column=2, row=2)
 
-btn_read = Button(window, text="Remove Task", command=remove_task)
+btn_read = Button(window, text="Remove Task",
+                  bg="#c72626",
+                  fg="white",
+                  font=('Arial', 10, 'bold'),
+                  activebackground="#400000",
+                  activeforeground="white",
+                  command=remove_task)
 btn_read.grid(column=4, row=2)
 
-btn_read = Button(window, text="Clear Tasks", command=clear_file)
+btn_read = Button(window, text="Clear Tasks",
+                  bg="#d18724",
+                  fg="white",
+                  font=('Arial', 10, 'bold'),
+                  activebackground="#784705",
+                  activeforeground="white",
+                  command=clear_file)
 btn_read.grid(column=0, row=2)
 
 entry = Entry(window, width = 100)
 entry.grid(column = 1, row = 3)
 entry.bind("<Button-1>", clear_placeholder)
 
-btn_execute = Button(window, text='Execute', command=execute_option)
+btn_execute = Button(window, text='Execute',
+                  bg="#c07cd1",
+                  fg="white",
+                  font=('Arial', 10, 'bold'),
+                  activebackground="#004912",
+                  activeforeground="white", 
+                  command=execute_option)
 btn_execute.grid(column=1, row=4)
 
 tasks_box = Listbox(window, width=80, height=10)

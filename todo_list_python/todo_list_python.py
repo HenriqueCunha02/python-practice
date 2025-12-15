@@ -28,26 +28,41 @@ option = int(input('Select the operation that you want:\n' \
 '2 - Add Task\n'
 '3 - Remove Task\n'
 '4 - Replace some Task\n'
-'5 - Clear All the Tasks\n'))
+'5 - Clear All the Tasks\n'
+'6 - Quit\n'))
 
-match option:
-    case 1:
-        read_task()
-    case 2:
-        task_to_add = input('Write the task that you want to add: ')
-        add_task(task_to_add)
-    case 3:
-        print('\nTasks that you have: ')
-        read_task()
-        task_to_remove = input('Write the task that you wants to remove: ')
-        remove_task(task_to_remove)
-    case 4:
-        print('\nTasks that you have: ')
-        read_task()
-        previus = input('Write the task that you want to replace: ')
-        new = input('Write the task that you want to add: ')
+opt = 1;
 
-        replace_in_file(previus, new)
+while opt == 1:
 
-    case 5:
-        clear_file()
+    match option:
+        case 1:
+            read_task()
+        case 2:
+            task_to_add = input('Write the task that you want to add: ')
+            add_task(task_to_add)
+
+        case 3:
+            print('\nTasks that you have: ')
+            read_task()
+            task_to_remove = input('Write the task that you wants to remove: ')
+            remove_task(task_to_remove)
+
+        case 4:
+            print('\nTasks that you have: ')
+            read_task()
+            
+            previus = input('Write the task that you want to replace: ')
+            new = input('Write the task that you want to add: ')
+
+            replace_in_file(previus, new)
+
+        case 5:
+            clear_file()
+
+        case 6:
+            opt = 0
+            print('You quited the list!')
+
+    if opt == 0:
+        break

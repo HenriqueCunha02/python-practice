@@ -22,6 +22,7 @@ def remove_task():
     selected = tasks_box.curselection()
 
     if not selected:
+        not_selected_label = Label(window, text='<-- Select a Task ', fg='red', font=('Arial', 14, 'bold')).grid(column=2, row=6)
         return
 
     index = selected[0]
@@ -82,7 +83,6 @@ window.title('To Do List')
 introduction = Label(window, text = 'Select the operation that you want:').grid(column = 1, row = 0)
 
 task_list = Label(window, text = ('\n' \
-'3 - Remove Task\n'
 '4 - Replace some Task\n'
 '6 - Quit\n'))
 task_list.grid(column = 1, row = 1)

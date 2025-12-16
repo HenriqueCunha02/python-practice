@@ -28,8 +28,8 @@ def remove_task():
 
     if not selected:
         not_selected_label = Label(
-            window, text="<-- Select a Task ", fg="red", font=("Arial", 14, "bold")
-        ).grid(column=2, row=6)
+            list_frame, text="<-- Select a Task ", fg="red", font=("Arial", 14, "bold")
+        ).pack(side=RIGHT, padx=10)
         return
 
     index = selected[0]
@@ -92,78 +92,106 @@ def execute_option():
 window = Tk()
 window.title("To Do List")
 
-introduction = Label(window, text="Select the operation that you want:").grid(
-    column=1, row=0
-)
+header_frame = Frame(window)
+header_frame.pack(pady=10)
 
-task_list = Label(window, text=("\n" "4 - Replace some Task\n" "6 - Quit\n"))
-task_list.grid(column=1, row=1)
+buttons_frame = Frame(window)
+buttons_frame.pack(pady=10)
+
+entry_frame = Frame(window)
+entry_frame.pack(pady=10)
+
+list_frame = Frame(window)
+list_frame.pack(pady=10)
+
+button_quit_frame = Frame(window)
+button_quit_frame.pack(pady=10)
+
+introduction = Label(
+    header_frame, text="Select the operation that you want:", font=("Arial", 16, "bold")
+).pack()
+
+task_list = Label(
+    header_frame, text=("\n" "4 - Replace some Task\n" "6 - Quit\n")
+).pack()
 
 btn_read = Button(
-    window,
+    buttons_frame,
     text="Read Tasks",
+    width=12,
     bg="#4287f5",
     fg="white",
     font=("Arial", 10, "bold"),
     activebackground="#02245c",
     activeforeground="white",
     command=read_task,
-)
-btn_read.grid(column=1, row=2)
+).pack(side=LEFT, padx=5)
 
 btn_read = Button(
-    window,
+    buttons_frame,
     text="Add Task",
+    width=12,
     bg="#4CAF50",
     fg="white",
     font=("Arial", 10, "bold"),
     activebackground="#004003",
     activeforeground="white",
     command=option_add_task,
-)
-btn_read.grid(column=2, row=2)
+).pack(side=LEFT, padx=5)
 
 btn_read = Button(
-    window,
+    buttons_frame,
     text="Remove Task",
+    width=12,
     bg="#c72626",
     fg="white",
     font=("Arial", 10, "bold"),
     activebackground="#400000",
     activeforeground="white",
     command=remove_task,
-)
-btn_read.grid(column=4, row=2)
+).pack(side=LEFT, padx=5)
 
 btn_read = Button(
-    window,
+    buttons_frame,
     text="Clear Tasks",
+    width=12,
     bg="#d18724",
     fg="white",
     font=("Arial", 10, "bold"),
     activebackground="#784705",
     activeforeground="white",
     command=clear_file,
-)
-btn_read.grid(column=0, row=2)
+).pack(side=LEFT, padx=5)
 
-entry = Entry(window, width=100)
-entry.grid(column=1, row=3)
+entry = Entry(entry_frame, width=56)
+entry.pack(side=LEFT, padx=5)
 entry.bind("<Button-1>", clear_placeholder)
 
 btn_execute = Button(
-    window,
+    entry_frame,
     text="Execute",
+    width=12,
     bg="#c07cd1",
     fg="white",
     font=("Arial", 10, "bold"),
     activebackground="#004912",
     activeforeground="white",
     command=execute_option,
-)
-btn_execute.grid(column=1, row=4)
+).pack(side=LEFT, padx=5)
 
-tasks_box = Listbox(window, width=80, height=10)
-tasks_box.grid(column=1, row=6)
+tasks_box = Listbox(list_frame, width=80, height=10)
+tasks_box.pack(side=LEFT)
+
+btn_execute = Button(
+    button_quit_frame,
+    text="Quit",
+    width=12,
+    bg="#c70b0b",
+    fg="white",
+    font=("Arial", 10, "bold"),
+    activebackground="#5C0000",
+    activeforeground="white",
+    command=window.destroy,
+).pack(side=LEFT, padx=5)
 
 window.mainloop()

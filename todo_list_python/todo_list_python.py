@@ -11,6 +11,22 @@ def clear_placeholder(event):
         entry.delete(0, END)
 
 
+def show_entry(placeholder=""):
+    entry.pack(side=LEFT, padx=5)
+    btn_execute.pack(side=LEFT, padx=5)
+
+    entry.delete(0, END)
+    entry.insert(0, placeholder)
+    entry.bind("<Key>", clear_placeholder)
+    entry.focus()
+
+
+def hide_entry():
+    entry.pack_forget()
+    btn_execute.pack_forget()
+    entry.delete(0, END)
+
+
 def add_task(task):
     with archive.open("a") as open:
         open.write(task + "\n")
@@ -19,18 +35,17 @@ def add_task(task):
 def option_add_task():
     global current_action
     current_action = "add"
-    entry.delete(0, END)
-    entry.insert(0, "Write the task and press Execute")
+    show_entry("Write the task and press Execute")
 
 
 def remove_task():
     selected = tasks_box.curselection()
 
     if not selected:
-        not_selected_label = Label(
-            list_frame, text="<-- Select a Task ", fg="red", font=("Arial", 14, "bold")
-        ).pack(side=RIGHT, padx=10)
+        warning_label.pack(side="top", padx=10)
         return
+
+    warning_label.pack_forget()
 
     index = selected[0]
     task = tasks_box.get(index)
@@ -67,52 +82,51 @@ def clear_file():
 def execute_option():
     global current_action
 
-    value = entry.get()
+    value = entry.get().strip()
 
     if current_action == "add":
-        add_task(value)
-        current_action = None
-        entry.delete(0, END)
+        if value:
+            add_task(value)
+        hide_entry()
         return
 
-    if not value.isdigit():
-        print("Please enter a valid option number")
-        entry.delete(0, END)
-        return
+    elif current_action == "replace":
+        pass
 
-    option = int(value)
-
-    match option:
-        case 3:
-            remove_task(entry.get())
-        case 5:
-            clear_file()
+    hide_entry()
+    current_action = None
 
 
 window = Tk()
 window.title("To Do List")
+window.configure(bg="#ffffff")
+window.geometry("700x500")
+window.resizable(False, False)
 
-header_frame = Frame(window)
-header_frame.pack(pady=10)
 
-buttons_frame = Frame(window)
+header_frame = Frame(window, bg="#c0c0c0")
+header_frame.pack(pady=10, fill=X)
+
+buttons_frame = Frame(window, bg="#ffffff")
 buttons_frame.pack(pady=10)
 
-entry_frame = Frame(window)
+entry_frame = Frame(window, bg="#ffffff")
 entry_frame.pack(pady=10)
 
-list_frame = Frame(window)
+warning_label_frame = Frame(window, bg="#ffffff")
+warning_label_frame.pack()
+
+list_frame = Frame(window, bg="#ffffff")
 list_frame.pack(pady=10)
 
-button_quit_frame = Frame(window)
+button_quit_frame = Frame(window, bg="#ffffff")
 button_quit_frame.pack(pady=10)
 
 introduction = Label(
-    header_frame, text="Select the operation that you want:", font=("Arial", 16, "bold")
-).pack()
-
-task_list = Label(
-    header_frame, text=("\n" "4 - Replace some Task\n" "6 - Quit\n")
+    header_frame,
+    text="Select the operation that you want:",
+    font=("Segoe UI", 16, "bold"),
+    bg="#c0c0c0",
 ).pack()
 
 btn_read = Button(
@@ -121,51 +135,56 @@ btn_read = Button(
     width=12,
     bg="#4287f5",
     fg="white",
-    font=("Arial", 10, "bold"),
+    font=("Segoe UI", 10, "bold"),
     activebackground="#02245c",
     activeforeground="white",
     command=read_task,
 ).pack(side=LEFT, padx=5)
 
-btn_read = Button(
+btn_add = Button(
     buttons_frame,
     text="Add Task",
     width=12,
     bg="#4CAF50",
     fg="white",
-    font=("Arial", 10, "bold"),
+    font=("Segoe UI", 10, "bold"),
     activebackground="#004003",
     activeforeground="white",
     command=option_add_task,
 ).pack(side=LEFT, padx=5)
 
-btn_read = Button(
+btn_remove = Button(
     buttons_frame,
     text="Remove Task",
     width=12,
     bg="#c72626",
     fg="white",
-    font=("Arial", 10, "bold"),
+    font=("Segoe UI", 10, "bold"),
     activebackground="#400000",
     activeforeground="white",
     command=remove_task,
 ).pack(side=LEFT, padx=5)
 
-btn_read = Button(
+btn_clear = Button(
     buttons_frame,
     text="Clear Tasks",
     width=12,
     bg="#d18724",
     fg="white",
-    font=("Arial", 10, "bold"),
+    font=("Segoe UI", 10, "bold"),
     activebackground="#784705",
     activeforeground="white",
     command=clear_file,
 ).pack(side=LEFT, padx=5)
 
-entry = Entry(entry_frame, width=56)
-entry.pack(side=LEFT, padx=5)
-entry.bind("<Button-1>", clear_placeholder)
+entry = Entry(
+    entry_frame,
+    width=37,
+    bg="#c0c0c0",
+    relief="flat",
+    font=("bold"),
+)
+
 
 btn_execute = Button(
     entry_frame,
@@ -173,22 +192,38 @@ btn_execute = Button(
     width=12,
     bg="#c07cd1",
     fg="white",
-    font=("Arial", 10, "bold"),
+    font=("Segoe UI", 10, "bold"),
     activebackground="#004912",
     activeforeground="white",
     command=execute_option,
-).pack(side=LEFT, padx=5)
+)
 
-tasks_box = Listbox(list_frame, width=80, height=10)
+warning_label = Label(
+    warning_label_frame,
+    text="SELECT A TASK BEFORE REMOVE IT",
+    fg="red",
+    bg="#ffffff",
+    font=("Segoe UI", 14, "bold"),
+)
+
+tasks_box = Listbox(
+    list_frame,
+    width=80,
+    height=10,
+    selectbackground="#444444",
+    font=("Consolas", 12, "bold"),
+    bg="#c0c0c0",
+)
 tasks_box.pack(side=LEFT)
 
-btn_execute = Button(
+
+btn_quit = Button(
     button_quit_frame,
     text="Quit",
     width=12,
     bg="#c70b0b",
     fg="white",
-    font=("Arial", 10, "bold"),
+    font=("Segoe UI", 10, "bold"),
     activebackground="#5C0000",
     activeforeground="white",
     command=window.destroy,
